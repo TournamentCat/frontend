@@ -7,7 +7,7 @@ const submit = async event => {
 	const data = new FormData(event.target)
 	console.log(data)
 
-	const resp = await fetch('/tournaments/create', {
+	const resp = await fetch('/api/tournaments', {
 		method: 'POST',
 		body: new URLSearchParams({
 			name: data.get('name'),
@@ -15,7 +15,7 @@ const submit = async event => {
 			type: data.get('type')
 		}).toString(),
 		headers: {
-			'Content-Type': 'application/x-www-urlencoded'
+			'Content-Type': 'application/x-www-form-urlencoded'
 		}
 	})
 	
