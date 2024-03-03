@@ -43,6 +43,16 @@ const router = createRouter({
 		path: '/tournaments/create',
 		name: 'create',
 		component: async () => import('@/views/Create.vue')
+	},
+	{
+		path: '/login',
+		name: 'login',
+		component: async () => import('@/views/Login.vue')
+	},
+	{
+		path: '/signup',
+		name: 'signup',
+		component: async () => import('@/views/Signup.vue')
 	}
   ]
 })

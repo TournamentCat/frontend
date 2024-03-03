@@ -1,5 +1,27 @@
 <script setup>
+
 import { RouterLink, RouterView } from 'vue-router'
+import { authStore } from './stores/auth'
+import { watch, ref, unref, computed } from 'vue'
+
+const auth = authStore()
+
+const userLogin = computed(() => auth.loggedIn)
+const username = ref('')
+
+const getUsername = token => token
+
+const authChange = token => {
+	if(!auth.loggedIn) return
+
+	username.value = getUsername(token)
+}
+
+watch(
+	() => auth.token,
+	authChange
+)
+
 </script>
 
 <template>
@@ -17,6 +39,10 @@ import { RouterLink, RouterView } from 'vue-router'
 						<li><RouterLink to="/dashboard">Dashboard</RouterLink></li>
 					</ul>
 				</nav>
+				<div :class="$style.user" :data-logged-in="userLogin">
+					<div><RouterLink to="/login">Log in</RouterLink><RouterLink to="/signup">Sign up</RouterLink></div>
+					<div><span>{{ username }}</span></div>
+				</div>
 			</div></header>
 			<main :class="$style.main"><RouterView /></main>
 			<footer :class="$style.footer">
@@ -33,6 +59,25 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style module>
+.user > * {
+	display: none;
+}
+.user[data-logged-in='false'] > *:nth-child(1) {
+	display: flex;
+	gap: 10px;
+
+	& a {
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+.user[data-logged-in='true'] > *:nth-child(2) {
+	display: block;
+}
+
 .max {
 	width: 100%;
 	min-height: 100%;
@@ -76,7 +121,7 @@ import { RouterLink, RouterView } from 'vue-router'
 .header > div.wrapper {
 	display: grid;
 	gap: 10px;
-	grid-template-columns: 60px auto;
+	grid-template-columns: 60px 1fr auto;
 	align-items: center;
 }
 .header > div.wrapper > * {
