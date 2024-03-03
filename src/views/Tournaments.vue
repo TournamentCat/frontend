@@ -1,0 +1,52 @@
+<script setup>
+
+import Box from '@/components/Box.vue'
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
+
+const searchText = ref('')
+const search = () => console.log(searchText.value)
+
+</script>
+
+<template>
+	<div :class="$style.layout">
+		<h1>Search</h1>
+		<Box :class="$style.searchbox">
+			<form :class="$style.form" @submit.prevent="search">
+				<input type="text" v-model="searchText">
+				<button type="submit" class="highlight-background">search</button>
+			</form>
+			<div :class="$style.create">or <RouterLink to="/tournaments/create" class="highlight-text">create new tournament</RouterLink> instead.</div>
+		</Box>
+		<Box contenteditable=""></Box>
+	</div>
+	
+</template>
+
+<style module>
+.layout {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-rows: auto 100px 1fr;
+	gap: 10px;
+}
+.searchbox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.create {
+	line-height: 1;
+	font-size: 1rem;
+}
+.form {
+	display: grid;
+	gap: 10px;
+	grid-template-columns: 1fr auto;
+	width: 100%;
+	padding: 0 20px;
+}
+</style>
