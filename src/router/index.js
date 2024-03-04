@@ -36,6 +36,10 @@ const router = createRouter({
 			{
 				path: 'player-list',
 				component: async () => Tournament.PlayerList
+			},
+			{
+				path: 'chat',
+				component: async () => Tournament.Chat
 			}
 		]
 	},

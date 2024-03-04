@@ -3,7 +3,6 @@
 import Box from '@/components/Box.vue'
 import Tournament from './Tournament.vue'
 import Zoom from '@/components/Zoom.vue'
-import { onZoomInOut } from '@/stores/zoom'
 import ZoomButton from '@/components/ZoomButton.vue'
 import Drag from '@/components/Drag.vue'
 import { ref, unref, onMounted, reactive } from 'vue'
@@ -29,12 +28,6 @@ function dragFixed() {
 }
 dragRelative()
 const zoomId = ref('tournament')
-
-// onZoomInOut(
-// 	unref(zoomId),
-// 	dragRelative,
-// 	dragFixed
-// )
 
 onMounted(() => {
 	brackets.value.dataset.active = true

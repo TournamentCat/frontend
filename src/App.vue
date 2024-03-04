@@ -1,26 +1,27 @@
 <script setup>
 
 import { RouterLink, RouterView } from 'vue-router'
-import { authStore } from './stores/auth'
+import { authStore } from '@/stores/auth'
 import { watch, ref, unref, computed } from 'vue'
+import getName from '@/utils/getName'
 
 const auth = authStore()
 
 const userLogin = computed(() => auth.loggedIn)
 const username = ref('')
 
-const getUsername = token => token
-
 const authChange = token => {
 	if(!auth.loggedIn) return
 
-	username.value = getUsername(token)
+	username.value = getName(token)
 }
 
 watch(
-	() => auth.token,
+	() => auth.token,	 
 	authChange
 )
+
+const logout = () => auth.logout()
 
 </script>
 
@@ -41,15 +42,15 @@ watch(
 				</nav>
 				<div :class="$style.user" :data-logged-in="userLogin">
 					<div><RouterLink to="/login">Log in</RouterLink><RouterLink to="/signup">Sign up</RouterLink></div>
-					<div><span>{{ username }}</span></div>
+					<div><span :class="$style.username">{{ username }}</span><a :class="$style.logout" @click.prevent="logout">log out</a></div>
 				</div>
 			</div></header>
 			<main :class="$style.main"><RouterView /></main>
 			<footer :class="$style.footer">
 				<p>Copyright (c) 2024, me. - All rights reserved.</p>
 				<ul role="list">
-					<li><a href="/terms">Terms and conditions</a></li>
-					<li><a href="/cookies">Cookie policy</a></li>
+					<li><a href="/terms">Terms and Conditions</a></li>
+					<li><a href="/cookies">Cookie Policy</a></li>
 					<li><a href="/privacy">Privacy Policy</a></li>
 				</ul>
 			</footer>
@@ -76,6 +77,16 @@ watch(
 }
 .user[data-logged-in='true'] > *:nth-child(2) {
 	display: block;
+}
+.logout {
+	display: inline-block;
+	margin-left: 5px;
+	text-decoration: underline;
+	color: lightblue;
+	cursor: pointer;
+}
+.username {
+	font-weight: bold;
 }
 
 .max {

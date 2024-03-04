@@ -30,7 +30,9 @@ const submit = async event => {
 
 	switch(resp.status) {
 		case 200:
-			handleSignup(await resp.json())
+		case 201:
+		case 204:
+			handleSignup(await resp.text())
 			break
 		default:
 			alert('Not today!')

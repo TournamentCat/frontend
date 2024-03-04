@@ -2,6 +2,7 @@
 
 import Box from '@/components/Box.vue'
 import Heading from '@/components/Heading.vue'
+import router from '@/router';
 
 const submit = async event => {
 	const data = new FormData(event.target)
@@ -11,7 +12,7 @@ const submit = async event => {
 		method: 'POST',
 		body: new URLSearchParams({
 			name: data.get('name'),
-			participants: data.get('participants'),
+			spots: data.get('spots'),
 			type: data.get('type')
 		}).toString(),
 		headers: {
@@ -23,7 +24,8 @@ const submit = async event => {
 		case 200:
 		case 201:
 		case 204:
-			console.log(await resp.text())
+			const { id } = await resp.json()
+			router.push(`/tournaments/@${id}/manage`)
 			break
 		default:
 			console.log('error', await resp.text())
@@ -39,7 +41,7 @@ const submit = async event => {
 			<form @submit.prevent="submit">
 				<div>
 					<label for="name">Name: </label>
-					<input type="text" name="name" id="name">
+					<input type="text" name="name" id="name" required>
 				</div>
 				<div>
 					<label for="type">Type: </label>
@@ -51,7 +53,7 @@ const submit = async event => {
 				</div>
 				<div>
 					<label for="participants">Number of participants</label>
-					<select name="participants" id="participants">
+					<select name="spots" id="participants">
 						<option value="4">4</option>
 						<option value="8">8</option>
 						<option value="16" selected>16</option>
